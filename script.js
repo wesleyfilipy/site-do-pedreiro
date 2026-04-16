@@ -32,13 +32,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (leadForm) {
         leadForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Show simple demo success message
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const serviceSelect = document.getElementById('service');
+            const service = serviceSelect.options[serviceSelect.selectedIndex].text;
+            
+            // Construct WhatsApp message
+            const phoneNumber = "5531996966137";
+            const message = `Hello! I would like to request a quote.\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Show message and reset
+            formSuccess.innerHTML = 'Redirecting to WhatsApp...';
             formSuccess.classList.remove('hidden');
             leadForm.reset();
             
             // Hide message after 5 seconds
             setTimeout(() => {
                 formSuccess.classList.add('hidden');
+                formSuccess.innerHTML = 'Thank you! We will call you back shortly.';
             }, 5000);
         });
     }
